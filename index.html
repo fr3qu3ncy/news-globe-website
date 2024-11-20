@@ -43,8 +43,10 @@
         }
         img {
             margin-top: 10px;
-            max-width: 100%;
-            height: auto;
+            width: 150px; /* Adjust as needed */
+            height: 150px; /* Adjust as needed */
+            border-radius: 50%; /* Make the image circular */
+            object-fit: cover; /* Ensure the image covers the circle */
         }
     </style>
 </head>
@@ -91,10 +93,12 @@
 
             anchorText.href = link;
             anchorText.textContent = `Go to ${dateString} news`;
+
             imageWrapper.href = link;
             image.src = imgSrc;
             image.alt = `${dateString} news`;
             imageWrapper.appendChild(image);
+
             dateDiv.appendChild(anchorText);
             dateDiv.appendChild(imageWrapper);
             contentDiv.appendChild(dateDiv);
