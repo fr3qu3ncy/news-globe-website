@@ -116,7 +116,6 @@
 
             const dateDiv = document.createElement('div');
             const anchorText = document.createElement('a');
-            const imageContainer = document.createElement('div'); // Container for the image and glow
             const imageWrapper = document.createElement('a');
             const image = document.createElement('img');
             const glowEffect = document.createElement('span'); // Added for the glow effect
@@ -132,13 +131,10 @@
             imageWrapper.appendChild(image);
 
             glowEffect.classList.add('glow'); // Add the 'glow' class for CSS animation
-
-            imageContainer.classList.add('image-container'); // Apply the new class
-            imageContainer.appendChild(imageWrapper);
-            imageContainer.appendChild(glowEffect); // Append the glow effect to the image wrapper
+            imageWrapper.appendChild(glowEffect); // Append the glow effect to the image wrapper
 
             dateDiv.appendChild(anchorText);
-            dateDiv.appendChild(imageContainer); // Append the image container with glow
+            dateDiv.appendChild(imageWrapper); // Append the image container with glow
             contentDiv.appendChild(dateDiv);
 
             // Move to the next day
