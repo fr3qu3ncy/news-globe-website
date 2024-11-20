@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Open Sans', sans-serif; background-color: #000; color: #fff;}
+        canvas { display: flex; margin-right: 0px; height: 90vh } /* Reduced height to 40vh */
+        .content {
+            width: 90%;
+            padding: 5px;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #fff;
+            a {
+                color: white;
+            }
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+        .newsText {
+            font-size: x-small;
+            padding: 5px;
+        }
+        .hideDiv {
+            display: none;
+            font-size: x-small;
+        }
+        .newsText:hover + .hideDiv {
+            display: flex;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>2024-11-20</h1>
+    </div>
+    <div class="content">
+        <!-- back - link to go to index.html-->
+        <a href="index.html">Back</a>
+    </div>
+    <div class="newsText">
+        <p>Here are the news headlines summarized:</br></br>1. **Deadly Bomb Cyclone Hits US Northwest**: A powerful storm, dubbed a "bomb cyclone", has caused widespread power outages and damage in the US northwest and western Canada, resulting in at least one death.</br>2. **Israeli Strikes on Syria's Palmyra Kill 36**: Israeli airstrikes on Syria have killed at least 36 people, according to state media reports.</br>3. **Ukraine Front Could "Collapse" as Russia Gains Accelerate**: Experts warn that the Ukrainian front could collapse due to accelerating Russian gains in Ukraine.</p>
+    </div>
+    <div class="hideDiv">
+        <p><i> Dark storm clouds gather over a desolate US northwest landscape with power lines sparking and buildings destroyed in the foreground, while in the background Israeli fighter jets scream across the sky and Syrian ruins smolder in the distance under a blood moon. </i></p>
+    </div>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 50) / (0.65 * window.innerHeight), 0.1, 1000); // Updated aspect ratio
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+document.body.appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2024-11-20-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 14;
+camera.position.y = -3;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 10) / (0.7 * window.innerHeight); // Updated aspect ratio
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+});
+</script>
+</body>
+</html>  
