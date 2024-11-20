@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Open Sans', sans-serif; background-color: #000; color: #fff;}
+        canvas { display: flex; margin-right: 0px; height: 90vh } /* Reduced height to 40vh */
+        .content {
+            width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #fff;
+            font-size: x-small;
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+        .newsText {
+            font-size: x-small;
+        }
+        .hideDiv {
+            display: none;
+            font-size: x-small;
+        }
+        .newsText:hover + .hideDiv {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>2024-11-20</h1>
+    </div>
+    <div class="newsText">
+        <p>Here's a summary of the news headlines:</br></br>**Breaking News**</br></br>* Deadly bomb cyclone cuts power for thousands in US north-west</br>* Fresh weather warnings as UK hit by cold snap</br></br>**World News**</br></br>* Trump and Xi Jinping's relationship has soured - can they rebuild it?</br>* Ukraine front could 'collapse' as Russia gains accelerate, experts warn</br>* Ford to cut 800 UK jobs as electric car sales stall</br></br>**Domestic News**</br></br>* Al Fayed abuse ‘could be on scale of Savile’, says survivors’ advocate</br>* Women plan UK legal action over talc cancer claims</br>* Priest replaced after Sabrina Carpenter shoots music video in his church</br></br>**Business and Economy**</br></br>* Bomb cyclone hits US north-west, cutting power for thousands</br>* Fresh weather warnings as UK hit by cold snap</br>* Ford to cut 800 UK jobs as electric car sales stall</p>
+    </div>
+    <div class="hideDiv">
+        <p><i> "A woman with a determined expression stands amidst a stormy landscape of dark clouds and lightning, while in the background a sprawling cityscape of skyscrapers is partially destroyed from the aftermath of a bomb cyclone, a hint of a church steeple pokes through the chaos as a faint image of Sabrina Carpenter appears on the wall nearby." </i></p>
+    </div>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 100) / (0.67 * window.innerHeight), 0.1, 1000); // Updated aspect ratio
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+document.body.appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2024-11-20-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 15;
+camera.position.y = -3;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 10) / (0.7 * window.innerHeight); // Updated aspect ratio
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+});
+</script>
+</body>
+</html>  
