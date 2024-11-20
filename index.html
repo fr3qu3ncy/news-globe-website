@@ -25,8 +25,8 @@
             justify-content: center;
             flex-wrap: wrap;
         }
-        #content div {
-            position: relative; /* Needed for positioning the glow */
+        .date-container {
+            position: relative; /* Needed for positioning the image and glow */
             margin: 10px;
             padding: 20px;
             border: 1px solid #fff; /* White border */
@@ -42,13 +42,15 @@
         a:hover {
             text-decoration: underline;
         }
+        .image-container {
+            position: relative; /* Needed for positioning the glow over the image */
+            display: inline-block; /* Ensures it takes up space properly */
+        }
         img {
-            margin-top: 10px;
             width: 150px; /* Adjust as needed */
             height: 150px; /* Adjust as needed */
             border-radius: 50%; /* Make the image circular */
             object-fit: cover; /* Ensure the image covers the circle */
-            position: relative; /* Needed for positioning the glow */
         }
         .glow {
             position: absolute;
@@ -115,9 +117,12 @@
 
             const dateDiv = document.createElement('div');
             const anchorText = document.createElement('a');
+            const imageContainer = document.createElement('div'); // Container for the image and glow
             const imageWrapper = document.createElement('a');
             const image = document.createElement('img');
             const glowEffect = document.createElement('span'); // Added for the glow effect
+
+            dateDiv.classList.add('date-container'); // Apply the new class
 
             anchorText.href = link;
             anchorText.textContent = `Go to ${dateString} news`;
@@ -129,9 +134,12 @@
 
             glowEffect.classList.add('glow'); // Add the 'glow' class for CSS animation
 
+            imageContainer.classList.add('image-container'); // Apply the new class
+            imageContainer.appendChild(imageWrapper);
+            imageContainer.appendChild(glowEffect); // Append the glow effect to the image wrapper
+
             dateDiv.appendChild(anchorText);
-            imageWrapper.appendChild(glowEffect); // Append the glow effect to the image wrapper
-            dateDiv.appendChild(imageWrapper);
+            dateDiv.appendChild(imageContainer); // Append the image container with glow
             contentDiv.appendChild(dateDiv);
 
             // Move to the next day
