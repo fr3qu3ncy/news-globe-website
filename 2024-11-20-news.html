@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Open Sans', sans-serif; background-color: #000; }
+        canvas { display: block; margin-bottom: 20px; }
+        .content {
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #fff;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>2024-11-20</h1>
+        <canvas id="globeCanvas"></canvas> <!-- Canvas for the globe -->
+        <p>Here's a summary of the top 5 news headlines:</br></br>1. Met police officers investigated over woman's crash death</br>2. Trump picks new officials to serve in top roles</br>3. Cold weather continues with fresh warnings announced</br>4. Women plan UK legal action over talc cancer claims</br>5. Rising energy bills push inflation to highest for six months</p>
+        <p><i> A woman stands alone on a foggy, snow-covered London street, looking down at her feet as a city bus drives by in the background. In the foreground, a police car and a news headline 'Talc Cancer Claims' plastered on a nearby wall, with energy bills piling up in the corner. </i></p>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 400) / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth - 400, window.innerHeight);
+document.getElementById('globeCanvas').appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2024-11-20-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 20;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 400) / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 400, window.innerHeight);
+});
+</script>
+</body>
+</html>  
