@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; font-family: 'Open Sans', sans-serif; }
+        canvas { display: block; margin-right: 20px; }
+        .content {
+            width: 40%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #fff;
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>2024-11-20</h1>
+        <p>Here is a summary of the news headlines:</br></br>**Top News Stories:**</br></br>1. **Ukraine War:** Russian gains are accelerating, and US President Biden has approved new weapon use for Ukraine.</br>2. **Crime and Justice:** Rapper Sean "Diddy" Combs faces over 20 lawsuits while sitting in jail.</br>3. **World News:** The Haitian capital is witnessing attacks, causing the charity MSF to halt its work there.</br></br>Let me know if you'd like me to summarize anything else!</p>
+        <p><i> A dark and moody cityscape with a sense of urgency, set against the backdrop of a war-torn Ukraine, with a figure in the distance wearing a US Presidential pin, standing beside a Ukrainian soldier armed with newly approved American weapons. In the foreground, a graffiti-covered city street in Haiti is being attacked by rioters, while a MSF charity worker looks on in despair, amidst 20+ angry lawyers surrounding a cellblock where Sean "Diddy" Combs sits imprisoned, his signature sunglasses and confident smile now replaced with a somber expression. </i></p>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 400) / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth - 400, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2024-11-20-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 20;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 400) / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 400, window.innerHeight);
+});
+</script>
+</body>
+</html>  
