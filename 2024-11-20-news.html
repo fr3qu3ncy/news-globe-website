@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Open Sans', sans-serif; background-color: #000; }
+        canvas { display: flex; margin-right: 0px; height: 90vh } /* Reduced height to 40vh */
+        .content {
+            width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #fff;
+            
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>2024-11-20</h1>
+        <p>Here's a summary of the top news headlines:</br></br>* The situation on the Ukraine front is deteriorating, with experts warning that it could "collapse" as Russia gains accelerate.</br>* The UK is experiencing a cold snap, with fresh weather warnings issued for many areas.</br>* Celebrities from One Direction are mourning the death of Liam Payne at his funeral.</br>* Donald Trump has appointed former WWE CEO and TV doctor Dr. Oz to key roles in his administration.</br>* Met police officers are under investigation over the death of a woman in a car crash.</br>* Women in the UK plan to take legal action against manufacturers of talc linked to cancer claims.</br>* Influencer Logan Paul is accused of misleading fans about crypto investments.</br>* Rising energy bills have pushed inflation to its highest level for six months.</br>* A priest has been replaced after a music video was filmed in his church by Sabrina Carpenter.</br></br>Let me know if you'd like me to summarize any specific category (e.g. politics, entertainment, etc.)!</p>
+        <p><i> A young woman in a Ukrainian winter landscape stands amidst fallen snow-covered trees, with a cityscape of Kyiv burning in the background as a Russian tank emerges from the smoke, while a group of One Direction band members mournfully hold a funeral procession for Liam Payne in the foreground. Donald Trump stands confidently beside Dr. Oz, both dressed formally and surrounded by news headlines about rising energy bills and inflation. In the top-left corner, a Met police officer is shown being investigated over a car crash death, while a lawyer consults with women planning to sue talc manufacturers below. Logan Paul sits on a couch looking dejected amidst news articles about crypto scams, as a priest stands in front of a church now converted into a music video set for Sabrina Carpenter. </i></p>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 100) / (0.6 * window.innerHeight), 0.1, 1000); // Updated aspect ratio
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+document.body.appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2024-11-20-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 20;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 10) / (0.7 * window.innerHeight); // Updated aspect ratio
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+});
+</script>
+</body>
+</html>  
