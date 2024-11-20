@@ -13,11 +13,13 @@
             background-color: #000; /* Black background */
             margin: 0;
             padding: 0;
+            line-height: 1.6; /* Improved readability with a bit of line height */
         }
         h1 {
             color: #fff; /* White text for the heading */
             text-align: center;
             margin-top: 20px;
+            font-size: 3em; /* Increased font size for the heading */
         }
         #content {
             margin-top: 20px;
@@ -36,7 +38,7 @@
             flex-basis: 30%; /* Adjust as needed */
         }
         a {
-            color: #007BFF; /* Light blue link */
+            color: #fff; /* Changed link color to white */
             text-decoration: none;
         }
         a:hover {
@@ -45,10 +47,15 @@
         .image-container {
             position: relative; /* Needed for positioning the glow over the image */
             display: inline-block; /* Ensures it takes up space properly */
+            width: 150px; /* Set width to match the image size */
+            height: 150px; /* Set height to match the image size */
         }
         img {
-            width: 150px; /* Adjust as needed */
-            height: 150px; /* Adjust as needed */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 50%; /* Make the image circular */
             object-fit: cover; /* Ensure the image covers the circle */
         }
@@ -116,6 +123,7 @@
 
             const dateDiv = document.createElement('div');
             const anchorText = document.createElement('a');
+            const imageContainer = document.createElement('div'); // Container for the image and glow
             const imageWrapper = document.createElement('a');
             const image = document.createElement('img');
             const glowEffect = document.createElement('span'); // Added for the glow effect
@@ -123,7 +131,7 @@
             dateDiv.classList.add('date-container'); // Apply the new class
 
             anchorText.href = link;
-            anchorText.textContent = `Go to ${dateString} news`;
+            anchorText.textContent = `${dateString} news`;
 
             imageWrapper.href = link;
             image.src = imgSrc;
@@ -131,10 +139,13 @@
             imageWrapper.appendChild(image);
 
             glowEffect.classList.add('glow'); // Add the 'glow' class for CSS animation
-            imageWrapper.appendChild(glowEffect); // Append the glow effect to the image wrapper
+
+            imageContainer.classList.add('image-container'); // Apply the new class
+            imageContainer.appendChild(glowEffect); // Append the glow effect to the image container
+            imageContainer.appendChild(imageWrapper); // Append the image wrapper to the image container
 
             dateDiv.appendChild(anchorText);
-            dateDiv.appendChild(imageWrapper); // Append the image container with glow
+            dateDiv.appendChild(imageContainer); // Append the image container with glow
             contentDiv.appendChild(dateDiv);
 
             // Move to the next day
