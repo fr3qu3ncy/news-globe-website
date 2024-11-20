@@ -85,16 +85,18 @@
             console.log(`Generating div for date: ${dateString}`);
 
             const dateDiv = document.createElement('div');
-            const anchor = document.createElement('a');
+            const anchorText = document.createElement('a');
+            const imageWrapper = document.createElement('a');
             const image = document.createElement('img');
 
-            anchor.href = link;
-            anchor.textContent = `Go to ${dateString} news`;
+            anchorText.href = link;
+            anchorText.textContent = `Go to ${dateString} news`;
+            imageWrapper.href = link;
             image.src = imgSrc;
             image.alt = `${dateString} news`;
-
-            dateDiv.appendChild(anchor);
-            dateDiv.appendChild(image);
+            imageWrapper.appendChild(image);
+            dateDiv.appendChild(anchorText);
+            dateDiv.appendChild(imageWrapper);
             contentDiv.appendChild(dateDiv);
 
             // Move to the next day
