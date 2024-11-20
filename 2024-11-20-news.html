@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Open Sans', sans-serif; background-color: #000; color: #fff;}
+        canvas { display: flex; margin-right: 0px; height: 90vh } /* Reduced height to 40vh */
+        .content {
+            width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #fff;
+            font-size: x-small;
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+        .newsText {
+            font-size: x-small;
+        }
+        .hideDiv {
+            display: none;
+            font-size: x-small;
+        }
+        .newsText:hover + .hideDiv {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>2024-11-20</h1>
+    </div>
+    <div class="newsText">
+        <p>Here are the top 5 news headlines from the BBC:</br></br>1. **Deadly bomb cyclone cuts power for thousands in US North-West**: A low-pressure storm system known as a bomb cyclone forms off the coast, causing widespread power outages and disruptions.</br>2. **Fresh weather warnings as UK hit by cold snap**: The UK is experiencing a sudden drop in temperature, with weather warnings issued for several regions.</br>3. **Ukraine front could 'collapse' as Russia gains accelerate, experts warn**: Military analysts predict that the Ukrainian front could collapse due to increased Russian advances.</br>4. **Ford to cut 800 UK jobs as electric car sales stall**: The automotive giant announces plans to lay off 800 employees in the UK due to declining electric car sales.</br>5. **Starmer will struggle to keep his ‘smash the gangs’ promise - as I saw firsthand**: A politician comments on the challenges of tackling gang violence, citing personal experiences.</p>
+    </div>
+    <div class="hideDiv">
+        <p><i> A dark and stormy night in the US North-West, with a massive bomb cyclone looming large over the cityscape, its intense winds knocking out power lines and plunging thousands into darkness. In the background, the ruins of a Ukrainian front line, with crumbling buildings and abandoned military vehicles, as Russian advances threaten to engulf the area. Amidst this chaos, a sleek electric car factory lies abandoned, its production lines silent and still, amidst the 800 laid-off workers protesting in the streets. </i></p>
+    </div>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 100) / (0.65 * window.innerHeight), 0.1, 1000); // Updated aspect ratio
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+document.body.appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2024-11-20-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 15;
+camera.position.y = -3;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 10) / (0.7 * window.innerHeight); // Updated aspect ratio
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+});
+</script>
+</body>
+</html>  
