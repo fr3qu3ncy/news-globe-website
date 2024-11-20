@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Open Sans', sans-serif; background-color: #000; color: #fff;}
+        canvas { display: flex; margin-right: 0px; height: 90vh } /* Reduced height to 40vh */
+        .content {
+            width: 90%;
+            padding: 5px;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #fff;
+            a {
+                color: white;
+            }
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+        .newsText {
+            font-size: x-small;
+        }
+        .hideDiv {
+            display: none;
+            font-size: x-small;
+        }
+        .newsText:hover + .hideDiv {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>2024-11-20</h1>
+    </div>
+    <div class="content">
+        <!-- back - link to go to index.html-->
+        <a href="index.html">Back</a>
+    </div>
+    <div class="newsText">
+        <p>Here's a summary of the news headlines:</br></br>* A powerful storm, known as a "bomb cyclone", is affecting the US north-west and western Canada, bringing high winds, flooding, and snow to over 7 million residents.</br>* The storm has caused widespread power outages, with hundreds of thousands of people without electricity in Washington state and California.</br>* At least one person has died in Washington state due to a tree falling on a homeless encampment.</br>* Ukraine's military is facing challenges as Russia gains ground, with experts warning that the Ukrainian front could "collapse" in the coming days.</br>* Rapper Sean "Diddy" Combs faces more than two dozen lawsuits while sitting in jail.</p>
+    </div>
+    <div class="hideDiv">
+        <p><i> "Turbulent stormy skies with powerful winds and waves crashing over a flooded coastal cityscape as snow blankets the surrounding mountains, juxtaposed with a dramatic night-time Ukrainian battlefield scene of Russian tanks advancing under the cover of darkness, and a gritty urban landscape of a homeless encampment amidst towering skyscrapers." </i></p>
+    </div>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 50) / (0.65 * window.innerHeight), 0.1, 1000); // Updated aspect ratio
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+document.body.appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2024-11-20-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 14;
+camera.position.y = -3;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 10) / (0.7 * window.innerHeight); // Updated aspect ratio
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+});
+</script>
+</body>
+</html>  
