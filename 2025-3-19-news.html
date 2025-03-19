@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 3D Globe with Dramatic Lighting</title>
+    <!-- Google Open Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Open Sans', sans-serif; background-color: #000; color: #fff;}
+        canvas { display: flex; margin-right: 0px; height: 90vh; } /* Reduced height to 40vh */
+        .content {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            background: linear-gradient(rgba(000,000,000,0.7), rgba(000,000,000,0.7));
+            opacity: 1;
+            color: #fff;
+            a {
+                color: white;
+            }
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .backgroundDiv {
+            background: linear-gradient(rgba(000,000,000,0.2), rgba(000,000,000,0.2)), url('images/2025-3-19-news.png') no-repeat center;
+            opacity: 1;
+            width: 100%;
+            height: 100%;
+        }
+        .transDiv {
+            opacity: 1;
+        }
+        .newsText {
+            font-size: small;
+            padding: 5px;
+            background: linear-gradient(rgba(000,000,000,0.5), rgba(000,000,000,0.5));
+            opacity: 1;
+            text-align: center;
+        }
+        .hideDiv {
+            display: none;
+            font-size: x-small;
+            text-align: center;
+        }
+        .newsText:hover + .hideDiv {
+            display: flex;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="backgroundDiv">
+        <div class="content">
+            <h1>2025-03-19</h1>
+        </div>
+        <div class="content">
+            <!-- back - link to go to index.html-->
+            <a href="index.html">Back</a>
+        </div>
+        <div class="newsText">
+            <p>Here is a one-sentence summary:</br></br>Recent news headlines include the Blobfish being named world's ugliest animal, US funding cuts for Voice of America and Radio Free Asia, Israeli strikes in Gaza killing at least 13 people, and Chinese state media welcoming the VOA cuts.</p>
+        </div>
+        <div class="hideDiv">
+            <p><i> A grotesquely ugly gelatinous blobfish sits on a throne, surrounded by a crowd of people, some holding signs that say "Ugliest Animal" while others in the background are protesting with flags from China and Israel, amidst a cityscape with a US flag flying high in the distance. </i></p>
+        </div>
+        <div id="CanvasDiv" class="transDiv">
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, (window.innerWidth - 50) / (0.65 * window.innerHeight), 0.1, 1000); // Updated aspect ratio
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+renderer.setClearColor( 0x000000, 0 ); // the default
+renderer.autoClear = false;
+scene.background = null;
+document.getElementById("CanvasDiv").appendChild(renderer.domElement);
+
+// Globe geometry and material
+const globeGeometry = new THREE.SphereGeometry(5, 64, 64); // High detail sphere
+const globeMaterial = new THREE.MeshStandardMaterial({
+    map: new THREE.TextureLoader().load('images/2025-3-19-news.png') // Replace with your texture URL or local path
+});
+const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+scene.add(globe);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 3, 7).normalize();
+scene.add(directionalLight);
+
+// Camera position
+camera.position.z = 14;
+camera.position.y = -3;
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the globe around the Y-axis
+    globe.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+    camera.aspect = (window.innerWidth - 10) / (0.7 * window.innerHeight); // Updated aspect ratio
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth - 10, 0.7 * window.innerHeight); // Reduced height to 40% of the viewport height
+});
+</script>
+
+</body>
+</html>  
